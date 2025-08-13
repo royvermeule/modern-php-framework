@@ -4,6 +4,12 @@
         colors="true"
         backupGlobals="false"
 >
+    <coverage>
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+    </coverage>
+
     <testsuites>
         <testsuite name="Unit Tests">
             <directory>tests</directory>

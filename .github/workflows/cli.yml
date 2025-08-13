@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test-and-analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 8.4 (with Xdebug coverage)
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: xdebug
+          ini-values: xdebug.mode=coverage
+          tools: composer:v2
+          extensions: mbstring, intl, dom, pdo, pdo_sqlite, sqlite3
+
+      - name: Install dependencies (cached)
+        uses: ramsey/composer-install@v3
+        with:
+          composer-options: --no-interaction --prefer-dist
+
+      # Create the missing config file for CI
+      - name: Prepare local-config.php from dist
+        run: |
+          cp -f "$GITHUB_WORKSPACE/src/local-config.dist.php" "$GITHUB_WORKSPACE/src/local-config.php"
+          ls -l "$GITHUB_WORKSPACE/src/local-config.php"
+      
+
+      # (Optional) sanity check: ensure Xdebug is loaded
+      - name: Verify coverage driver
+        run: php -v && php --ri xdebug | sed -n '1,20p'
+
+      - name: PHPUnit with coverage
+        run: |
+          mkdir -p coverage
+          vendor/bin/phpunit -c phpunit.xml --testdox \
+            --coverage-filter=src \
+            --coverage-clover=coverage/clover.xml
+
+      - name: Upload coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-php84
+          path: coverage/clover.xml
+
+      - name: Psalm (GitHub annotations)
+        run: vendor/bin/psalm --output-format=github
