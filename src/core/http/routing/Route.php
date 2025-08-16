@@ -10,15 +10,15 @@ use Symfony\Component\HttpFoundation\Response;
 final class Route
 {
     /** @var array<string, string> */
-    private array $params = [];
+    private(set) array $params = [];
     /**
      * @param string $method
      * @param string $name
      * @param array<class-string<IController>, string>|callable(mixed...): Response $handler
      */
     public function __construct(
-        private readonly string $method,
-        private readonly string $name,
+        public readonly string $method,
+        public readonly string $name,
         private readonly mixed $handler
     ) {
     }

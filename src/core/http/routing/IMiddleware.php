@@ -9,5 +9,5 @@ use Symfony\Component\HttpFoundation\Response;
 
 interface IMiddleware
 {
-    public function handler(Request $request): Response;
+    public function handle(Request $request, array $params): Response;
 }
