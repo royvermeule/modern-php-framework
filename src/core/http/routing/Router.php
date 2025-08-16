@@ -11,6 +11,9 @@ final class Router
     /** @var list<Route> */
     private static array $routes = [];
 
+    /** @var \WeakMap<Route, list<class-string<IMiddleware>|callable(Request): Response>>|null */
+    private static ?\WeakMap $middleware = null;
+
     /**
      * @param string $method
      * @param string $name
@@ -61,6 +64,58 @@ final class Router
     public static function put(string $name, array|callable $handler): void
     {
         self::addRoute('PUT', $name, $handler);
+    }
+
+    /**
+     * @param string $name
+     * @param class-string<IMiddleware>|callable(Request): Response $middleware
+     * @return void
+     * @throws \Exception
+     */
+    public static function addMiddleware(string $method, string $name, string|callable $middleware): void
+    {
+        /** @var Route|null $route */
+        $route = array_find(self::$routes, fn($route) => $route->match(
+            method: $method,
+            uri: $name,
+        ));
+
+        if ($route === null) {
+            throw new \Exception('Route not found for middleware');
+        }
+
+        if (self::$middleware === null) {
+            /** @var \WeakMap<Route, list<class-string<IMiddleware>|(callable(Request): Response)>> $map */
+            $map = new \WeakMap();
+            self::$middleware = $map;
+        }
+        $map = self::$middleware;
+
+        /** @var list<class-string<IMiddleware>|(callable(Request): Response)> $list */
+        $list = $map[$route] ?? [];
+        $list[] = $middleware;
+        $map[$route] = $list;
+    }
+
+    /**
+     * @param class-string<IMiddleware>|callable(Request): Response $middleware
+     * @return void
+     */
+    public static function addMiddlewareToAllRoutes(string|callable $middleware): void
+    {
+        foreach (self::$routes as $route) {
+            if (self::$middleware === null) {
+                /** @var \WeakMap<Route, list<class-string<IMiddleware>|(callable(Request): Response)>> $map */
+                $map = new \WeakMap();
+                self::$middleware = $map;
+            }
+            $map = self::$middleware;
+
+            /** @var list<class-string<IMiddleware>|(callable(Request): Response)> $list */
+            $list = $map[$route] ?? [];
+            $list[] = $middleware;
+            $map[$route] = $list;
+        }
     }
 
     /**
