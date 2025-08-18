@@ -32,5 +32,9 @@ jobs:
           cp -f "$GITHUB_WORKSPACE/src/local-config.dist.php" "$GITHUB_WORKSPACE/src/local-config.php"
           ls -l "$GITHUB_WORKSPACE/src/local-config.php"
 
+      - name: PHPUnit
+        run: |
+          vendor/bin/phpunit
+
       - name: Psalm (GitHub annotations)
         run: vendor/bin/psalm --output-format=github
