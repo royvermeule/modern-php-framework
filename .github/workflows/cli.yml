@@ -31,24 +31,10 @@ jobs:
         run: |
           cp -f "$GITHUB_WORKSPACE/src/local-config.dist.php" "$GITHUB_WORKSPACE/src/local-config.php"
           ls -l "$GITHUB_WORKSPACE/src/local-config.php"
-      
 
-      # (Optional) sanity check: ensure Xdebug is loaded
-      - name: Verify coverage driver
-        run: php -v && php --ri xdebug | sed -n '1,20p'
-
-      - name: PHPUnit with coverage
+      - name: PHPUnit
         run: |
-          mkdir -p coverage
-          vendor/bin/phpunit -c phpunit.xml --testdox \
-            --coverage-clover=coverage/clover.xml
-
-      - name: Upload coverage
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-php84
-          path: coverage/clover.xml
+          vendor/bin/phpunit
 
       - name: Psalm (GitHub annotations)
         run: vendor/bin/psalm --output-format=github
