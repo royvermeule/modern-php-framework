@@ -17,6 +17,6 @@ final class Controller implements IController
 
     public function getMessage(): Response
     {
-        return $this->json(['message' => 'Hello World!']);
+        return $this->json(['message' => 'Hello World']);
     }
 }
