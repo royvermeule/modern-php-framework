@@ -24,6 +24,11 @@ trait IsController
     {
         $applicationJson = ['Content-Type' => 'application/json'];
         $headers = array_merge($headers, $applicationJson);
-        return new Response(json_encode($data), $status, $headers);
+
+        $json = json_encode($data);
+        if ($json === false) {
+            throw new \RuntimeException('Failed to encode json');
+        }
+        return new Response($json, $status, $headers);
     }
 }
