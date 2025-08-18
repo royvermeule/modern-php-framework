@@ -14,7 +14,7 @@ final class Route
     /**
      * @param string $method
      * @param string $name
-     * @param array<class-string<IController>, string>|callable(mixed...): Response $handler
+     * @param array{0: class-string<IController>, 1: string}|callable(mixed...): Response $handler
      */
     public function __construct(
         public readonly string $method,

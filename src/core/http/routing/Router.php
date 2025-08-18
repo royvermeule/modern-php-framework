@@ -17,7 +17,7 @@ final class Router
     /**
      * @param string $method
      * @param string $name
-     * @param array<class-string<IController>, string>|callable(mixed...): Response $handler
+     * @param array{0: class-string<IController>, 1: string}|callable(mixed...): Response $handler
      * @return void
      */
     private static function addRoute(string $method, string $name, array|callable $handler): void
@@ -28,7 +28,7 @@ final class Router
 
     /**
      * @param string $name
-     * @param array<class-string<IController>, string>|callable(mixed...): Response $handler
+     * @param array{0: class-string<IController>, 1: string}|callable(mixed...): Response $handler
      * @return void
      */
     public static function get(string $name, array|callable $handler): void
@@ -38,7 +38,7 @@ final class Router
 
     /**
      * @param string $name
-     * @param array<class-string<IController>, string>|callable(mixed...): Response $handler
+     * @param array{0: class-string<IController>, 1: string}|callable(mixed...): Response $handler
      * @return void
      */
     public static function post(string $name, array|callable $handler): void
@@ -48,7 +48,7 @@ final class Router
 
     /**
      * @param string $name
-     * @param array<class-string<IController>, string>|callable(mixed...): Response $handler
+     * @param array{0: class-string<IController>, 1: string}|callable(mixed...): Response $handler
      * @return void
      */
     public static function delete(string $name, array|callable $handler): void
@@ -58,7 +58,7 @@ final class Router
 
     /**
      * @param string $name
-     * @param array<class-string<IController>, string>|callable(mixed...): Response $handler
+     * @param array{0: class-string<IController>, 1: string}|callable(mixed...): Response $handler
      * @return void
      */
     public static function put(string $name, array|callable $handler): void
@@ -68,7 +68,7 @@ final class Router
 
     /**
      * @param string $name
-     * @param array<class-string<IController>, string>|callable(mixed...): Response $handler
+     * @param array{0: class-string<IController>, 1: string}|callable(mixed...): Response $handler
      * @return void
      */
     public static function options(string $name, array|callable $handler): void
