@@ -6,6 +6,7 @@ namespace Tests;
 
 use PHPUnit\Framework\TestCase;
 use Src\core\http\IController;
+use Src\core\http\IsController;
 use Src\core\http\routing\Route;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -40,6 +41,8 @@ final class RouteTest extends TestCase
     public function testControllerCallback(): void
     {
         $class = new class implements IController {
+            use IsController;
+
             public function index(): Response
             {
                 return new Response('test');
