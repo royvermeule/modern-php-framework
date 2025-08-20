@@ -7,5 +7,7 @@ return [
     'DB_USER' => 'root',
     'DB_PASS' => '',
     'DB_PORT' => 3306,
+    'DB_DRIVER' => 'pdo_mysql',
     'DB_CHARSET' => 'utf8',
+    'DB_FILE' => ''
 ];
