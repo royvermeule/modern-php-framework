@@ -8,11 +8,10 @@ use Src\core\Config;
 require_once __DIR__ . "/vendor/autoload.php";
 
 $ormConfig = ORMSetup::createAttributeMetadataConfig(
-    paths: [__DIR__ . '/src'],
+    paths: [__DIR__ . '/src/entities'],
     isDevMode: true,
 );
 
-// Explicit proxy configuration (prevents "configure a proxy directory" error)
 $proxyDir = __DIR__ . '/var/doctrine/proxies';
 if (!is_dir($proxyDir)) {
     mkdir($proxyDir, 0777, true);

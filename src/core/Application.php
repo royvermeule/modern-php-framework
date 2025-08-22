@@ -3,6 +3,7 @@
 namespace Src\core;
 
 use Src\core\http\routing\Router;
+use Src\entities\User;
 
 final class Application
 {

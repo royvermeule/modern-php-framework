@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Src\core;
 
+use Doctrine\ORM\EntityManager;
+
 final class Config
 {
     public static string $appRoot = __DIR__ . '/../';
@@ -35,5 +37,19 @@ final class Config
             throw new \InvalidArgumentException("Key $key not found in local-config.php");
         }
         return $localConfig[$key];
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public static function getEntityManager(): EntityManager
+    {
+        $entityManager = self::$appRoot . '/../bootstrap.php';
+        if (!file_exists($entityManager)) {
+            throw new \Exception('bootstrap.php not found');
+        }
+        /** @var EntityManager $entityManager */
+        $entityManager = require $entityManager;
+        return $entityManager;
     }
 }
