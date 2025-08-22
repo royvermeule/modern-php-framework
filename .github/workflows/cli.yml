@@ -29,7 +29,7 @@ jobs:
       # Create the missing config file for CI
       - name: Prepare local-config.php from dist
         run: |
-          cp -f "$GITHUB_WORKSPACE/src/local-config.dist.php" "$GITHUB_WORKSPACE/src/local-config.php"
+          cp -f "$GITHUB_WORKSPACE/tests/config/settings.php" "$GITHUB_WORKSPACE/src/local-config.php"
           ls -l "$GITHUB_WORKSPACE/src/local-config.php"
 
       - name: PHPUnit
